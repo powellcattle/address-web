@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>JavaScript - read JSON from URL</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+<div class="mypanel"></div>
+
+<script>
+    var api = "localhost:5000/address"
+    var api = "http://date.jsontest.com"
+    var api = "https://teamtreehouse.com/matthew.json?callback=showNames"
+    var api = "powell-home.com:5000/address?callback=get_address"
+    $.getJSON(api, function (data) {
+        console.log(data.address)
+        $.each(data, function (idx, val) {
+            console.log(idx);
+            console.log(val);
+        });
+
+    });
+</script>
+
+</body>
+</html>
