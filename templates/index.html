@@ -12,15 +12,22 @@
     var api = "localhost:5000/address"
     var api = "http://date.jsontest.com"
     var api = "https://teamtreehouse.com/matthew.json?callback=showNames"
-    var api = "powell-home.com:5000/address?callback=get_address"
-    $.getJSON(api, function (data) {
-        console.log(data.address)
-        $.each(data, function (idx, val) {
-            console.log(idx);
-            console.log(val);
-        });
+    var api = 'http://powell-home.com:5000/address'
+    $.ajax({
+        url: 'http://powell-home.com:5000/address',
+        dataType: 'jsonp',
+        success: function(data){
+            var text = '';
+            var len = data.length;
+            console.log('here');
+            for(var i=0;i<len;i++){
+                twitterEntry = data[i];
+                console.log(twitterEntry.address);
 
+            }
+        }
     });
+
 </script>
 
 </body>
