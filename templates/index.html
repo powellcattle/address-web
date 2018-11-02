@@ -1,34 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>JavaScript - read JSON from URL</title>
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
+
+    <style>
+        .ui-autocomplete-loading {
+            background: white url("images/ui-anim_basic_16x16.gif") right center no-repeat;
+        }
+    </style>
+
+    <script>
+        $(function () {
+
+            $("#address").autocomplete({
+
+                source: function (request, response) {
+
+                    $.ajax({
+                        url: 'http://powell-home.com:5000/address',
+                        dataType: 'jsonp',
+                        data: {
+                            add_req: request.term
+                        },
+
+                        success: function (data) {
+
+                            response($.map(data, function (item) {
+                                console.log(item.full_name);
+                                return {
+                                    value: item.full_name
+                                }
+
+                            }))
+                        }
+                    })
+
+                },
+                minLength: 2
+            });
+        });
+    </script>
+
+
 </head>
 
 <body>
-<div class="mypanel"></div>
 
-<script>
-    var api = "localhost:5000/address"
-    var api = "http://date.jsontest.com"
-    var api = "https://teamtreehouse.com/matthew.json?callback=showNames"
-    var api = 'http://powell-home.com:5000/address'
-    $.ajax({
-        url: 'http://powell-home.com:5000/address',
-        dataType: 'jsonp',
-        success: function(data){
-            var text = '';
-            var len = data.length;
-            console.log('here');
-            for(var i=0;i<len;i++){
-                twitterEntry = data[i];
-                console.log(twitterEntry.address);
-
-            }
-        }
-    });
-
-</script>
+<div class="ui-widget">
+    <label for="address">Address: </label>
+    <input id="address" type="text" autocomplete="off">
+</div>
 
 </body>
 </html>
