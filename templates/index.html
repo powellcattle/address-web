@@ -7,12 +7,44 @@
 
 
     <!--<style>-->
-        <!--.ui-autocomplete-loading {-->
-            <!--background: white url("images/ui-anim_basic_16x16.gif") right center no-repeat;-->
-        <!--}-->
+    <!--.ui-autocomplete-loading {-->
+    <!--background: white url("images/ui-anim_basic_16x16.gif") right center no-repeat;-->
+    <!--}-->
     <!--</style>-->
 
     <script>
+        $(function () {
+
+            $("#street").autocomplete({
+
+                source: function (request, response) {
+
+                    $.ajax({
+                        url: 'http://powell-home.com:5000/streets',
+                        dataType: 'jsonp',
+                        data: {
+                            req: request.term
+                        },
+
+                        success: function (data) {
+                            if (!data)
+                                return
+
+                            response($.map(data, function (item) {
+                                console.log(item.street);
+                                return {
+                                    value: item.street
+                                }
+
+                            }))
+                        }
+                    })
+
+                },
+                minLength: 3
+            });
+        });
+
         $(function () {
 
             $("#address").autocomplete({
@@ -20,18 +52,20 @@
                 source: function (request, response) {
 
                     $.ajax({
-                        url: 'http://powell-home.com:5000/address',
+                        url: 'http://powell-home.com:5000/addresses',
                         dataType: 'jsonp',
                         data: {
-                            add_req: request.term
+                            req: request.term
                         },
 
                         success: function (data) {
+                            if (!data)
+                                return
 
                             response($.map(data, function (item) {
-                                console.log(item.full_name);
+                                console.log(item.address);
                                 return {
-                                    value: item.full_name
+                                    value: item.address
                                 }
 
                             }))
@@ -48,6 +82,11 @@
 </head>
 
 <body>
+
+<div class="ui-widget">
+    <label for="street">Street: </label>
+    <input id="street" type="text" autocomplete="off">
+</div>
 
 <div class="ui-widget">
     <label for="address">Address: </label>
